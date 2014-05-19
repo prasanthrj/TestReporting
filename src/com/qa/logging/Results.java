@@ -6,7 +6,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 
+import com.qa.reporting.DataBaseReporting;
 import com.qa.testcomponets.TestCase;
+import com.qa.testcomponets.TestFactory;
 import com.qa.testcomponets.TestRun;
 import com.qa.testcomponets.TestSuite;
 
@@ -48,6 +50,8 @@ import com.qa.testcomponets.TestSuite;
 		 
 		 public static String testCaseName=null;
 		 public static String testModule=null;
+		 private static TestFactory testFactory;
+		 
 		 
 		 
 			public enum Status {
@@ -57,6 +61,8 @@ import com.qa.testcomponets.TestSuite;
 		 	
 		 public void updateResult( boolean testResult)
 		 {
+			 
+			 
 			 if(testResult == false)
 			 {
 				 testCaseResult = false;
@@ -145,8 +151,9 @@ import com.qa.testcomponets.TestSuite;
 			//#############################################################################
 
 			
-			public  void createTestCaseHeader(String TestCaseHtmlfile,String Screenshotpath, TestCase objTestCase, TestRun objTestRun, TestSuite objTestSuite)
+			public void createTestCaseHeader(String TestCaseHtmlfile,String Screenshotpath, TestCase objTestCase, TestRun objTestRun, TestSuite objTestSuite, TestFactory objTestfacFactory)
 			{
+				testFactory = objTestfacFactory;
 				
 				testCaseName = objTestCase.getTestCase_Name();
 				testModule =  objTestSuite.getTestModuleName();
@@ -544,22 +551,30 @@ import com.qa.testcomponets.TestSuite;
 		        		 
 		        	 {	 
 		        		 updateSummaryCount(Status.PASS);
+		        		 testFactory.objTestCase.setTestCase_Status("PASS");
 		        		 
 		        		 row+="<tr><td COLSPAN = 6 bgcolor = #687C7D><p align=center><b><font color=white size=2 face= Verdana> PASSED </td></tr>"; 
 		        	 }
 		        	 else
 		        	 {
 		        		 updateSummaryCount(Status.FAIL);
+		        		 testFactory.objTestCase.setTestCase_Status("FAIL");
 		        		 
 		        		 row+="<tr><td COLSPAN = 6 bgcolor = #687C7D><p align=center><b><font color=red size=2 face= Verdana> FAILED </td></tr>";
 		        	 }
 		        	
 			         bw.write(row);
+			         
+			         Reporter rs = new Reporter();
+			         rs.databaseReporting(testFactory);
+			         rs.sendAPIReport(testFactory);
+			        
+			 		
 			       
 			      }
 			      catch (Exception e)
 			      {
-			    	  
+			    	 
 			      }
 			      finally
 			      {
@@ -617,12 +632,13 @@ import com.qa.testcomponets.TestSuite;
 		        	 {
 		        		// int i = DriverScript.subiteration -1; 
 		        		 //+ DriverScript.testcase +" "+DriverScript.iteration+" "+i+(inc-1)+".jpg" 
-		        		 row+="<a href= "+TestCaseHtmlfile+"><font color = red><B>"+strStatus+"</B></font>";
+		        		 row+="<a href= "+Results.TestCaseHtmlfile+"><font color = red><B>"+strStatus+"</B></font>";
 		        	 } 
 		        	 else if (strStatus.equals(Status.PASS))
 		        	 {
 		        		 //row+="<font color = green><B>"+strStatus+"</B></font>";
-		        		 row+="<a href="+TestCaseHtmlfile+"><font color = green><B>"+strStatus+"</B></font>";
+		        		 
+		        		 row+="<a href="+Results.TestCaseHtmlfile+"><font color = green><B>"+strStatus+"</B></font>";
 		        		 
 		        	 }
 		        	 else

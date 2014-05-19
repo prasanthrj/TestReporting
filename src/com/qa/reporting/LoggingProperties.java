@@ -1,6 +1,7 @@
 package com.qa.reporting;
 
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -21,7 +22,7 @@ public class LoggingProperties {
 		Properties loggingProperties = new Properties();
 		try {
 			//loggingProperties.load(BaseWrapper.class.getResourceAsStream("/Logging.properties"));
-			loggingProperties.load(Reporter.class.getResourceAsStream(propertiesPath));
+			loggingProperties.load(new FileInputStream(propertiesPath));
 		} catch (IOException e) {
 			System.out.println("Error while importing logging properties from path "+propertiesPath );
 			e.printStackTrace();

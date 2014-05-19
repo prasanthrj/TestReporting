@@ -1,21 +1,15 @@
 package com.qa.test;
 
 import java.io.IOException;
-
 import org.testng.annotations.Test;
-
 import com.qa.logging.Reporter;
 import com.qa.logging.Results.Status;
 
+@Test
 public class testRun {
 	
-
-
-	
 	Reporter rs = new Reporter();
-
 	
-	@Test
 	public void testHtml() throws IOException
 	{
 		rs.startSummaryReport();
@@ -60,6 +54,7 @@ public class testRun {
 		
 		
 		rs.endSummaryReport();
+	
 		
 	}
 	

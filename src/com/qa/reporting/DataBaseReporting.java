@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.qa.logging.Results;
 import com.qa.testcomponets.TestFactory;
 
 public class DataBaseReporting {
@@ -19,7 +20,7 @@ public class DataBaseReporting {
 		   final String PASS = "root";
 		   
 		   
-		   public void createDatabase(TestFactory objTestFactory) 
+		   public void createDatabase() 
 		   
 		   {
 			   
@@ -49,8 +50,8 @@ public class DataBaseReporting {
 		      
 		      sql = "CREATE TABLE TESTRUN " +
 		                   "(id INTEGER not NULL, " +
-		    		       " testType VARCHAR(25)"+
-		                   " testModule VARCHAR(255), " + 
+		    		       " testType VARCHAR(25),"+
+		                   " testModule VARCHAR(255)," + 
 		                   " testcase VARCHAR(255), " + 
 		                   " result VARCHAR(255), " + 
 		                   " run INTEGER, " + 
@@ -189,14 +190,14 @@ public class DataBaseReporting {
 //			      oTD.runId = oTD.runId+1;
 			      
 			      sql = "INSERT INTO testrun " +
-                  "VALUES('1','"
+                  "VALUES("+Results.stepNo+",'"
+                           +objTestFactory.objTestCase.getTest_Type()+"','"
 			    		   +objTestFactory.objTestSuite.testModuleName+"','"
                            +objTestFactory.objTestCase.getTestCase_Name()+"', '"
 			    		   +objTestFactory.objTestCase.getTestCase_Status()+"', 1,'"
                            +objTestFactory.objTestRun.browser+"')";
 			      
                   stmt.executeUpdate(sql);
-     
 			    		      
 			      System.out.println("Inserted records into the table...");
 	
