@@ -6,7 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import com.qa.reporting.DataBaseReporting;
 import com.qa.testcomponets.TestCase;
 import com.qa.testcomponets.TestFactory;
 import com.qa.testcomponets.TestRun;

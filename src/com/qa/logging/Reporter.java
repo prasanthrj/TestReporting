@@ -88,6 +88,7 @@ public class Reporter extends Results {
 	{
 
 		loggerModules();
+		
 		LoggingProperties objLoggingProps = new LoggingProperties();
 		objDBReports.createDatabase();
 		objTestfacFactory.objTestSuite.setProjectName(objLoggingProps
@@ -97,6 +98,9 @@ public class Reporter extends Results {
 				.loadLoggingProperties("C://LSIReports//Properties//Release.properties").getProperty(
 						"releaseID"));
 		objTestfacFactory.objTestRun.setBrowser(objLoggingProps
+				.loadLoggingProperties("C://LSIReports//Properties//Release.properties").getProperty(
+						"browser"));
+		objTestfacFactory.objTestCase.setTest_Type(objLoggingProps
 				.loadLoggingProperties("C://LSIReports//Properties//Release.properties").getProperty(
 						"browser"));
 

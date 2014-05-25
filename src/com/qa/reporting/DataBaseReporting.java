@@ -10,19 +10,35 @@ import com.qa.testcomponets.TestFactory;
 
 public class DataBaseReporting {
 	
+	public static String JDBC_DRIVER;  
+	public static String DB_URL;
+	public static String USER;
+	public static String PASS;
+	   
 	
-		
-		   final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-		   final String DB_URL = "jdbc:mysql://localhost/";
-
-		   //  Database credentials
-		   final String USER = "root";
-		   final String PASS = "root";
-		   
-		   
-		   public void createDatabase() 
+	
+public void loadDataBaseReporting()
+			
+			{
+						
+			 JDBC_DRIVER	 = new LoggingProperties()
+			   .loadLoggingProperties("C://LSIReports//Properties//Database.properties").getProperty("JDBC_DRIVER");
+			 DB_URL =  new LoggingProperties()
+			   .loadLoggingProperties("C://LSIReports//Properties//Database.properties").getProperty("DB_URL");
+			 USER =    new LoggingProperties()
+			   .loadLoggingProperties("C://LSIReports//Properties//Database.properties").getProperty("USER");
+			 PASS = new LoggingProperties()
+			   .loadLoggingProperties("C://LSIReports//Properties//Database.properties").getProperty("PASS");                 
+				   
+			}	   
+	      
+			
+			
+			public void createDatabase() 
 		   
 		   {
+				loadDataBaseReporting();
+				
 			   
 		   Connection conn = null;
 		   Statement stmt = null;
@@ -168,6 +184,8 @@ public class DataBaseReporting {
 			   
 			   {
 			   //STEP 2: Register JDBC driver
+				   
+				  loadDataBaseReporting();
 			      Class.forName("com.mysql.jdbc.Driver");
 	
 			      //STEP 3: Open a connection

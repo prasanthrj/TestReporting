@@ -7,10 +7,25 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Properties;
 
 import com.qa.testcomponets.TestFactory;
 
 public class ApiReporting {
+	
+	public static String URL; 
+	public static String ContentType;
+	
+	public void getURL()
+
+	{
+		
+		Properties objLogging = new LoggingProperties().loadLoggingProperties("C://LSIReports//Properties//Database.properties");
+		URL = objLogging.getProperty("API_URL");
+		ContentType = objLogging.getProperty("ContentType");
+		
+		
+	}
 
 		 
 		// http://localhost:8080/RESTfulExample/json/product/post
@@ -20,21 +35,26 @@ public class ApiReporting {
 	 
 		  try {
 			  
+			getURL();
+			  
 			  
 			System.out.println("API Report"+objTestfacFactory.objTestCase.getTestCase_Name()
 					            +"Status"+objTestfacFactory.objTestCase.getTestCase_Status());
 			
-			String input = "{\"test_case_name\":\""+objTestfacFactory.objTestCase.getTestCase_Name()+"\",";
-			       input+= "\"module_name\":\""+objTestfacFactory.objTestSuite.getTestModuleName()+"\",";
+			String input = "{\"testcase_name\":\""+objTestfacFactory.objTestCase.getTestCase_Name()+"\",";
+			       input+= "\"testcase_module\":\""+objTestfacFactory.objTestSuite.getTestModuleName()+"\",";
 			       input+= "\"test_case_ID\":\""+objTestfacFactory.objTestCase.getTestCase_Name()+"\",";
-			       input+= "\"test_result\":\""+objTestfacFactory.objTestCase.getTestCase_Status()+"\",";
+			       input+= "\"testcase_status\":\""+objTestfacFactory.objTestCase.getTestCase_Status()+"\",";
+			       input+= "\"cycle\":\""+objTestfacFactory.objTestRun.getRelease_ID()+"\",";
+			       input+= "\"project\":\""+objTestfacFactory.objTestSuite.projectName+"\",";
+			       input+= "\"testcase_type\":\""+objTestfacFactory.objTestCase.getTest_Type()+"\",";
 			       input+= "\"browser\":\""+objTestfacFactory.objTestRun.browser+"\"}";
 	 
-			URL url = new URL("http://localhost:3000/runs.json");
+			URL url = new URL(URL);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setDoOutput(true);
 			conn.setRequestMethod("POST");
-			conn.setRequestProperty("Content-Type", "application/json");
+			conn.setRequestProperty("Content-Type", ContentType);
 	 
 			//String input = "{\"module_name\": \"ModuleName2\",\"test_case_name\": \"Test case Name\"}";
 	 

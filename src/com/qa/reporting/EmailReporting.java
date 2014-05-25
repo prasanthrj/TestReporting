@@ -1,9 +1,7 @@
 package com.qa.reporting;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
@@ -19,6 +17,15 @@ import com.qa.logging.Results;
 
 
 public class EmailReporting extends Object{
+	
+	public static String EMAILID ;
+	
+	public void getEmailReporting()
+	
+	{
+		 EMAILID	 = new LoggingProperties()
+		   .loadLoggingProperties("C://LSIReports//Properties//Database.properties").getProperty("EMAIL_ID");
+	}
 
 	
 	
@@ -45,6 +52,7 @@ public void sendEmail()
 	
     try{
     	
+    	// getEmailReporting();
     	
     	String body = readFile(Results.SummaryHtmlfile);
 
@@ -86,7 +94,7 @@ public void sendEmail()
 
     }catch(Exception E){
         System.out.println( "Oops something has gone pearshaped!");
-        System.out.println( E );
+        System.out.println( E);
     }
 }
 }
