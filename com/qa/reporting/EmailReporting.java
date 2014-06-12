@@ -69,7 +69,7 @@ public void sendEmail()
         Session mailSession = Session.getInstance(props, new javax.mail.Authenticator() {
 
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("lsiautomationreports@gmail.com", "automation1234");
+                return new PasswordAuthentication("vanqui.vanquisher@gmail.com", "04btc040");
             }
         });
 
@@ -78,8 +78,8 @@ public void sendEmail()
         Message msg = new MimeMessage( mailSession );
 
         //--[ Set the FROM, TO, DATE and SUBJECT fields
-        msg.setFrom( new InternetAddress( "lsiautomationreports@lsiqa.com" ) );
-        msg.setRecipients( Message.RecipientType.TO,InternetAddress.parse("EMtesting@liquidityservices.com") );
+        msg.setFrom( new InternetAddress( "emailreports@lsiqa.com" ) );
+        msg.setRecipients( Message.RecipientType.TO,InternetAddress.parse("prasanth.r@imaginea.com") );
         msg.setSentDate( new Date());
         msg.setSubject( "Automation Report" );
 
