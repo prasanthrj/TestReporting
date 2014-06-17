@@ -6,6 +6,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 
+import net.sourceforge.htmlunit.corejs.javascript.ObjToIntMap;
+
+import org.openqa.selenium.WebDriver;
+
 import com.qa.testcomponets.TestCase;
 import com.qa.testcomponets.TestFactory;
 import com.qa.testcomponets.TestRun;
@@ -456,7 +460,7 @@ import com.qa.testcomponets.TestSuite;
 			//Date Created		: 
 			//#############################################################################
 
-			public void htmllog(String strStepName,String strDescription,Status strStatus)
+			public void htmllog(String strStepName,String strDescription,Status strStatus, WebDriver browser)
 			{
 				 
 				 if (strStatus.equals(Status.PASS))
@@ -476,8 +480,11 @@ import com.qa.testcomponets.TestSuite;
 					ScreenShotPath1 = ScreenShotPath+ "\\"+screenshotName;
 					//ScreenShotPath1 = screenshotName;
 					
-					Util.takeScreenShot(ScreenShotPath1);
+					//Util.takeScreenShot(ScreenShotPath1);
+					
+					Util.takeFailureScreenShot(ScreenShotPath1, browser);
 					inc++;
+					
 				 }
 				 BufferedWriter bw = null;
 				 String row = null;

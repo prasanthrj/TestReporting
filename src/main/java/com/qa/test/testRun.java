@@ -1,64 +1,81 @@
 package com.qa.test;
 
 import java.io.IOException;
+
+import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
+
+import com.qa.base.BaseClass;
 import com.qa.logging.Reporter;
 import com.qa.logging.Results.Status;
 
 
 
-
-@Test
 public class testRun {
 	
 	Reporter rs = new Reporter();
+	WebDriver browser;
 	
+	@Test
 	public void testHtml() throws IOException
 	{
+		
+		BaseClass baseClass = new BaseClass();
+		
+	    browser = baseClass.iniBrowser();
+
 		rs.startSummaryReport();
+		browser.get("http://www.google.com");
 		
 		rs.startTestModule("Application");
 		rs.startTestCase("Application_UI");
-		rs.htmllog("Step1", "Step2", Status.PASS);
-		rs.htmllog("Step1", "Step2", Status.PASS);
-		rs.htmllog("Step1", "Step2", Status.PASS);
-		rs.htmllog("Step1", "Step2", Status.PASS);
+		rs.htmllog("Step1", "Step2", Status.PASS, browser);
+		rs.htmllog("Step1", "Step2", Status.PASS, browser);
+		rs.htmllog("Step1", "Step2", Status.PASS, browser);
+		rs.htmllog("Step1", "Step2", Status.PASS, browser);
 		rs.endTestCase();
 		
+		browser.get("http://www.linkedin.com");
+		
 		rs.startTestCase("Application_1");
-		rs.htmllog("Step1", "Step2", Status.PASS);
-		rs.htmllog("Step1", "Step2", Status.PASS);
-		rs.htmllog("Step1", "Step2", Status.FAIL);
-		rs.htmllog("Step1", "Step2", Status.PASS);
+		rs.htmllog("Step1", "Step2", Status.PASS, browser);
+		rs.htmllog("Step1", "Step2", Status.PASS, browser);
+		rs.htmllog("Step1", "Step2", Status.FAIL, browser);
+		rs.htmllog("Step1", "Step2", Status.PASS, browser);
 		rs.endTestCase();
+
+		browser.get("http://www.facebook.com");
 		
 		
 		rs.startTestCase("Application_2");
-		rs.htmllog("Step1", "Step2", Status.PASS);
-		rs.htmllog("Step1", "Step2", Status.PASS);
-		rs.htmllog("Step1", "Step2", Status.PASS);
-		rs.htmllog("Step1", "Step2", Status.PASS);
+		rs.htmllog("Step1", "Step2", Status.PASS, browser);
+		rs.htmllog("Step1", "Step2", Status.PASS, browser);
+		rs.htmllog("Step1", "Step2", Status.FAIL, browser);
+		rs.htmllog("Step1", "Step2", Status.PASS, browser);
 		rs.endTestCase();
 		
+        browser.get("http://www.linkedin.com");
+		
 		rs.startTestCase("Application_3");
-		rs.htmllog("Step1", "Step2", Status.PASS);
-		rs.htmllog("Step1", "Step2", Status.PASS);
-		rs.htmllog("Step1", "Step2", Status.FAIL);
-		rs.htmllog("Step1", "Step2", Status.PASS);
+		rs.htmllog("Step1", "Step2", Status.FAIL, browser);
+		rs.htmllog("Step1", "Step2", Status.PASS, browser);
+		rs.htmllog("Step1", "Step2", Status.FAIL, browser);
+		rs.htmllog("Step1", "Step2", Status.PASS, browser);
 		rs.endTestCase();
+
+		browser.get("http://www.facebook.com");
 		
 		
 		rs.startTestCase("Application_4");
-		rs.htmllog("Step1", "Step2", Status.PASS);
-		rs.htmllog("Step1", "Step2", Status.PASS);
-		rs.htmllog("Step1", "Step2", Status.PASS);
-		rs.htmllog("Step1", "Step2", Status.PASS);
+		rs.htmllog("Step1", "Step2", Status.PASS, browser);
+		rs.htmllog("Step1", "Step2", Status.PASS, browser);
+		rs.htmllog("Step1", "Step2", Status.FAIL, browser);
+		rs.htmllog("Step1", "Step2", Status.PASS, browser);
 		rs.endTestCase();
-		
-		
+	
+
 		rs.endSummaryReport();
 	
-		
 	}
 	
 
