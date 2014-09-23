@@ -3,6 +3,8 @@ package com.qa.logging;
 import java.io.File;
 import java.io.IOException;
 
+import org.json.JSONException;
+
 import com.qa.reporting.ApiReporting;
 import com.qa.reporting.DataBaseReporting;
 import com.qa.reporting.EmailReporting;
@@ -21,6 +23,8 @@ public class Reporter extends Results {
 	public static String apiLogging;
 	public static String log4jLogging;
 	public static String htmlLogging;
+	
+	public static final String LOG_PROPERTY_PATH="reportFiles";
 
 	TestFactory objTestfacFactory = new TestFactory();
 	Results objResults = new Results();
@@ -34,19 +38,19 @@ public class Reporter extends Results {
 
 		LoggingProperties objLoggingProps = new LoggingProperties();
 		databaseLogger = objLoggingProps
-				.loadLoggingProperties("C://LSIReports//Properties//Logging.properties")
+				.loadLoggingProperties(LOG_PROPERTY_PATH+"//Logging.properties")
 				.getProperty("database").toString();
 		htmlLogging = objLoggingProps
-				.loadLoggingProperties("C://LSIReports//Properties//Logging.properties")
+				.loadLoggingProperties(LOG_PROPERTY_PATH+"//Logging.properties")
 				.getProperty("htmllogs").toString();
 		log4jLogging = objLoggingProps
-				.loadLoggingProperties("C://LSIReports//Properties//Logging.properties")
+				.loadLoggingProperties(LOG_PROPERTY_PATH+"//Logging.properties")
 				.getProperty("log4j").toString();
 		apiLogging = objLoggingProps
-				.loadLoggingProperties("C://LSIReports//Properties//Logging.properties")
+				.loadLoggingProperties(LOG_PROPERTY_PATH+"//Logging.properties")
 				.getProperty("api").toString();
 		emailLogging = objLoggingProps
-				.loadLoggingProperties("C://LSIReports//Properties//Logging.properties")
+				.loadLoggingProperties(LOG_PROPERTY_PATH+"//Logging.properties")
 				.getProperty("email").toString();
 
 	}
@@ -70,11 +74,13 @@ public class Reporter extends Results {
 	
 	/* Trigger API reporting */
 
-	public void sendAPIReport(TestFactory testFactory) 
+	public void sendAPIReport(TestFactory testFactory) throws IOException, JSONException 
 	
 	{
 		if (apiLogging.equalsIgnoreCase("true"))
+			objApiReporting.updateJIRA(testFactory);
 			objApiReporting.sendAPI(testFactory);
+		    
 		
 	}
 
@@ -92,16 +98,16 @@ public class Reporter extends Results {
 		LoggingProperties objLoggingProps = new LoggingProperties();
 		objDBReports.createDatabase();
 		objTestfacFactory.objTestSuite.setProjectName(objLoggingProps
-				.loadLoggingProperties("C://LSIReports//Properties//Release.properties").getProperty(
+				.loadLoggingProperties(LOG_PROPERTY_PATH+"//Release.properties").getProperty(
 						"projectName"));
 		objTestfacFactory.objTestRun.setRelease_ID(objLoggingProps
-				.loadLoggingProperties("C://LSIReports//Properties//Release.properties").getProperty(
+				.loadLoggingProperties(LOG_PROPERTY_PATH+"//Release.properties").getProperty(
 						"releaseID"));
 		objTestfacFactory.objTestRun.setBrowser(objLoggingProps
-				.loadLoggingProperties("C://LSIReports//Properties//Release.properties").getProperty(
+				.loadLoggingProperties(LOG_PROPERTY_PATH+"//Release.properties").getProperty(
 						"browser"));
 		objTestfacFactory.objTestCase.setTest_Type(objLoggingProps
-				.loadLoggingProperties("C://LSIReports//Properties//Release.properties").getProperty(
+				.loadLoggingProperties(LOG_PROPERTY_PATH+"//Release.properties").getProperty(
 						"browser"));
 
 		System.out.println("Project Name Set to "
@@ -113,9 +119,9 @@ public class Reporter extends Results {
 
 	public void startSummaryReport() throws IOException {
 		startTestRun();
-		new File("C://LSIReports//Properties//target/" + objTestfacFactory.objTestRun.getRelease_ID()
+		new File(LOG_PROPERTY_PATH+"//CustomReports/" + objTestfacFactory.objTestRun.getRelease_ID()
 				+ "/HTMLResults/").mkdirs();
-		objResults.createSummaryHeader("C://LSIReports//Properties//target/"
+		objResults.createSummaryHeader(LOG_PROPERTY_PATH+"//CustomReports/"
 				+ objTestfacFactory.objTestRun.getRelease_ID()
 				+ "/HTMLResults/SummaryHtmlfile.html");
 
@@ -130,6 +136,11 @@ public class Reporter extends Results {
 		sendEmailReport();
 		
 
+	}
+	
+	public void setTestCaseID(String testCaseID)
+	{
+		objTestfacFactory.objTestCase.setTestCaseID(testCaseID);
 	}
 
 	// Start Test case method
@@ -186,7 +197,7 @@ public class Reporter extends Results {
 				+ "_" + Util.getCurrentDatenTime("hh-mm-ss_a");
 
 		objTestfacFactory.objTestProperties
-				.setHtmlResultTargetDirectory("C://LSIReports//Properties//target/"
+				.setHtmlResultTargetDirectory(LOG_PROPERTY_PATH+"//CustomReports/"
 						+ objTestfacFactory.objTestRun.getRelease_ID()
 						+ "/HTMLResults/"
 						+ objTestfacFactory.objTestRun.getBrowser() + "/"

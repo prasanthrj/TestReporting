@@ -17,6 +17,7 @@ public class TestCase {
 	private String test_Steps;
 	private String test_Type;
 	private String testCase_Description;
+	private String testCaseID;
 	
 	/* Constructor withi Null values */
 	
@@ -27,11 +28,21 @@ public class TestCase {
 		testCase_Status=null;
 		test_Steps=null;
 		test_Type=null;
+		testCaseID=null;
 		
 	}
 	
 	
 	/* Getters and Setters */
+	
+	
+	public String getTestCaseID() {
+		return testCaseID;
+	}
+	public void setTestCaseID(String testCase_ID) {
+		this.testCaseID = testCase_ID;
+	}
+	
 	
 	public String getTestCase_Name() {
 		return testCase_Name;

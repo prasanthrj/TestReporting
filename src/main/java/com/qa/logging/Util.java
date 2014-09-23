@@ -1,14 +1,23 @@
 package com.qa.logging;
  
 import java.awt.Toolkit;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+
 import javax.imageio.ImageIO;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
    
 public class Util {
 	 
@@ -44,6 +53,25 @@ public class Util {
 			}
 		}
 		return hours + ": " + minutes + ": " + seconds;
+	}
+	
+	
+	// Updated webdriver function to take Screen shot
+	
+	public static void takeFailureScreenShot(String path, WebDriver browser )
+	{
+		
+		File scrFile = ((TakesScreenshot)browser).getScreenshotAs(OutputType.FILE);
+		DateFormat dateFormat = new SimpleDateFormat("dd_MMM_yyyy__hh_mm_ssaa");
+		new File(path).mkdirs();
+		String destFile = dateFormat.format(new Date()) + ".png";
+ 
+        try {
+			FileUtils.copyFile(scrFile, new File(path + "/" + destFile));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        
 	}
 	
 	// #############################################################################
