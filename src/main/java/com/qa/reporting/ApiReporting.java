@@ -51,6 +51,8 @@ public class ApiReporting {
 	public void updateJIRA(TestFactory objTestfacFactory) throws IOException,
 			JSONException {
 		getZAPIProps();
+		
+		try {
 
 		ZAPI objZ = new ZAPI();
 
@@ -90,6 +92,13 @@ public class ApiReporting {
 			objZ.updateTestExecution(testExecutionID, Status.PASS,
 					"Updated by Automation");
 
+		}
+		
+		}
+		
+		catch(Exception e)
+		{
+			e.printStackTrace();
 		}
 
 	}

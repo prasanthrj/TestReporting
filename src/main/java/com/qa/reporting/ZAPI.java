@@ -82,6 +82,9 @@ public class ZAPI {
     public ZAPI()
 	
 	{
+    	
+    	//System.setProperty("jsse.enableSNIExtension", "false");
+    	
     	this.ZAPI_URL = new LoggingProperties()
 		   .loadLoggingProperties(Reporter.LOG_PROPERTY_PATH+"//Logging.properties").getProperty("ZAPI_URL");
     	
@@ -93,6 +96,35 @@ public class ZAPI {
     	
 		 
 	}
+    
+    
+	/* Get project ID */
+
+	public static String getLatestIssue(String projectName) throws IOException,
+			JSONException {
+		String projectID = "";
+
+		final JSONObject projectJsonObj = httpGetJSONObject(BASE_URL
+				+ "rest/api/latest/issue/EM-1949");
+		if (null == projectJsonObj) {
+			throw new IllegalStateException("No Projects found");
+		}
+
+		JSONArray projects = (JSONArray) projectJsonObj.get("options");
+
+		// Iterate over versions
+		for (int i = 0; i < projects.length(); i++) {
+			final JSONObject obj2 = projects.getJSONObject(i);
+			// If label matches specified version name
+			if (obj2.getString("label").equals(projectName)) {
+				// Return the ID for this version
+				return obj2.getString("value");
+			}
+		}
+
+		return projectID;
+	}
+	
 
 
 	// ================================================================================

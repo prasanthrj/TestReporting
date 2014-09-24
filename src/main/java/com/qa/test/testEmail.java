@@ -1,11 +1,7 @@
 package com.qa.test;
 
 import java.io.IOException;
-
 import org.testng.annotations.Test;
-
-
-
 import com.qa.reporting.EmailReporting;
 import com.qa.testcomponets.TestFactory;
 

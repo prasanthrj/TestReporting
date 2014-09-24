@@ -40,7 +40,7 @@ public class testZapi {
 
 	}
 
-	@Test
+
 	public void updateZapiReport() throws IOException, JSONException {
 
 		String texeid = testZapii("TestAutomationProject", "V1.0",
@@ -48,5 +48,11 @@ public class testZapi {
 
 		objZ.updateTestExecution(texeid, Status.PASS, "Actual execution result");
 
+	}
+	
+	@Test
+	public void get() throws IOException, JSONException
+	{
+		objZ.getLatestIssue("fad");
 	}
 }
