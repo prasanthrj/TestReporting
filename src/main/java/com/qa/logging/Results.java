@@ -461,7 +461,7 @@ import com.qa.testcomponets.TestSuite;
 			//Date Created		: 
 			//#############################################################################
 
-			public void htmllog(String strStepName,String strDescription,Status strStatus, WebDriver browser)
+			public void htmllog(String strStepName,String strDescription,Status strStatus)
 			{
 				 
 				 if (strStatus.equals(Status.PASS))
@@ -483,7 +483,6 @@ import com.qa.testcomponets.TestSuite;
 					
 					//Util.takeScreenShot(ScreenShotPath1);
 					
-					Util.takeFailureScreenShot(ScreenShotPath1, browser);
 					inc++;
 					
 				 }
