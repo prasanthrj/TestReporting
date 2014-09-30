@@ -3,19 +3,26 @@ package com.qa.reporting;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
+import java.net.URLConnection;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
@@ -55,7 +62,7 @@ public class ZAPI {
 	// private static final String BASE_URL = "http://stage-jira.lqdt.com/jira";
 	// private static final String ZAPI_URL = BASE_URL + "/rest/zapi/latest/";
 
-	private static  String BASE_URL = "http://localhost:8080/";
+	private static  String BASE_URL = "https://stage-jira.lqdt.com/jira/";
 	private static  String ZAPI_URL = BASE_URL + "rest/zapi/latest/";
 	private static String usernamepwd = "";
 
@@ -77,13 +84,18 @@ public class ZAPI {
 	// ================================================================================
 	// setup URL and ZAPI URL
 	// ================================================================================
+	
+	
 
 	
     public ZAPI()
 	
 	{
     	
-    	//System.setProperty("jsse.enableSNIExtension", "false");
+		System.setProperty("jsse.enableSNIExtension", "false");
+		System.setProperty( "sun.security.ssl.allowUnsafeRenegotiation", "true" );
+		//System.setProperty("javax.net.ssl.trustStore","clientTrustStore.key");
+    
     	
     	this.ZAPI_URL = new LoggingProperties()
 		   .loadLoggingProperties(Reporter.LOG_PROPERTY_PATH+"//Logging.properties").getProperty("ZAPI_URL");
@@ -105,7 +117,10 @@ public class ZAPI {
 		String projectID = "";
 
 		final JSONObject projectJsonObj = httpGetJSONObject(BASE_URL
-				+ "rest/api/latest/issue/EM-1949");
+				+ "rest/api/latest/issue/REG-6");
+		
+		System.out.println("*******###***"+projectJsonObj.toString());
+		
 		if (null == projectJsonObj) {
 			throw new IllegalStateException("No Projects found");
 		}
@@ -142,6 +157,8 @@ public class ZAPI {
 		if (null == projectJsonObj) {
 			throw new IllegalStateException("No Projects found");
 		}
+		System.out.println("()()"+ZAPI_URL);
+		System.out.println("&*&*"+projectJsonObj);
 
 		JSONArray projects = (JSONArray) projectJsonObj.get("options");
 
@@ -515,25 +532,90 @@ public class ZAPI {
 	 */
 	private static HttpURLConnection createHttpCon(final String url,
 			final String method) throws IOException {
-
+		
+		
 		final HttpURLConnection httpCon;
-		if (USE_PROXY) {
-			httpCon = (HttpURLConnection) new URL(url).openConnection(PROXY);
-		} else {
-			httpCon = (HttpURLConnection) new URL(url).openConnection();
-		}
-
-		httpCon.setDoOutput(true);
-		httpCon.setRequestMethod(method);
-
-		if (!CREDENTIALS.isEmpty()) {
-			final String encoding = new Base64().encodeToString(CREDENTIALS
+		
+		final URLConnection urlCon = new URL(url).openConnection();
+		
+		try {
+		    // Create a trust manager that does not validate certificate chains
+		    final TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+		        @Override
+		        public void checkClientTrusted( final X509Certificate[] chain, final String authType ) {
+		        }
+		        @Override
+		        public void checkServerTrusted( final X509Certificate[] chain, final String authType ) {
+		        }
+		        @Override
+		        public X509Certificate[] getAcceptedIssuers() {
+		            return null;
+		        }
+		    } };
+		    
+		    // Install the all-trusting trust manager
+		    final SSLContext sslContext = SSLContext.getInstance( "SSL" );
+		    sslContext.init( null, trustAllCerts, new java.security.SecureRandom() );
+		    // Create an ssl socket factory with our all-trusting manager
+		    final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+		    
+		    
+		    // All set up, we can get a resource through https now:
+		    //final URLConnection urlCon = new URL(url).openConnection();
+		    // Tell the url connection object to use our socket factory which bypasses security checks
+		    ( (HttpsURLConnection) urlCon ).setSSLSocketFactory( sslSocketFactory );
+		    
+		    urlCon.setDoOutput(true);
+		    ((HttpURLConnection) urlCon).setRequestMethod(method);
+		    
+		    final String encoding = new Base64().encodeToString(CREDENTIALS
 					.getBytes());
-			httpCon.setRequestProperty("Authorization", "Basic " + encoding);
+			
+			//final String encoding = new Base64().encodeBase64(CREDENTIALS.getBytes(), false).toString();
+			
+		    urlCon.setRequestProperty("Authorization", "Basic " + encoding);
+		    
+		    urlCon.setRequestProperty("Content-type", "application/json");
+		    
+		    httpCon = (HttpURLConnection) urlCon;
+		    
+		    
+		   // final InputStream input = urlCon.getInputStream();
+	
+		    //int c;
+		    //while ( ( c = input.read() ) != -1 ) {
+		        // Do something...
+		    	
+		    	
+			/*	if (USE_PROXY) {
+					httpCon = (HttpURLConnection) new URL(url).openConnection(PROXY);
+				} else {
+					httpCon = (HttpURLConnection) new URL(url).openConnection();
+				}
+
+				httpCon.setDoOutput(true);
+				httpCon.setRequestMethod(method);
+
+				if (!CREDENTIALS.isEmpty()) {
+					final String encoding = new Base64().encodeToString(CREDENTIALS
+							.getBytes());
+					
+					//final String encoding = new Base64().encodeBase64(CREDENTIALS.getBytes(), false).toString();
+					
+					httpCon.setRequestProperty("Authorization", "Basic " + encoding);
+				}
+
+				httpCon.setRequestProperty("Content-type", "application/json"); */
+		    	
+		//    } 
+		    //input.close();
+		} catch ( final Exception e ) {
+		    e.printStackTrace();
 		}
+		
 
-		httpCon.setRequestProperty("Content-type", "application/json");
+		
 
-		return httpCon;
+		return (HttpURLConnection) urlCon;
 	}
 }

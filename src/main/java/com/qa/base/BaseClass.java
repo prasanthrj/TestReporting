@@ -135,8 +135,8 @@
 			
 			catch(Exception e)
 			{
-				logger.htmllog("Error-Start browser "+browser, e.toString(), Status.FAIL, driver);
-				logger.htmllog("Script Execution","Script Execution is not started in "+browser,Status.FAIL, driver);
+				logger.htmllog("Error-Start browser "+browser, e.toString(), Status.FAIL);
+				logger.htmllog("Script Execution","Script Execution is not started in "+browser,Status.FAIL);
 			}
 			
 			return driver;

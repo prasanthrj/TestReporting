@@ -30,20 +30,20 @@ public class testRun {
 		rs.startTestModule("Application");
 		rs.setTestCaseID("TES-2");
 		rs.startTestCase("Application_UI");
-		rs.htmllog("Step1", "Step2", Status.PASS, browser);
-		rs.htmllog("Step1", "Step2", Status.PASS, browser);
-		rs.htmllog("Step1", "Step2", Status.PASS, browser);
-		rs.htmllog("Step1", "Step2", Status.PASS, browser);
+		rs.htmllog("Step1", "Step2", Status.PASS);
+		rs.htmllog("Step1", "Step2", Status.PASS);
+		rs.htmllog("Step1", "Step2", Status.PASS);
+		rs.htmllog("Step1", "Step2", Status.PASS);
 		rs.endTestCase();
 		
 		browser.get("http://www.linkedin.com");
 		
 		rs.startTestCase("Application_1");
 		rs.setTestCaseID("TES-3");
-		rs.htmllog("Step1", "Step2", Status.PASS, browser);
-		rs.htmllog("Step1", "Step2", Status.PASS, browser);
-		rs.htmllog("Step1", "Step2", Status.PASS, browser);
-		rs.htmllog("Step1", "Step2", Status.PASS, browser);
+		rs.htmllog("Step1", "Step2", Status.PASS);
+		rs.htmllog("Step1", "Step2", Status.PASS);
+		rs.htmllog("Step1", "Step2", Status.PASS);
+		rs.htmllog("Step1", "Step2", Status.PASS);
 		rs.endTestCase();
 
 		browser.get("http://www.facebook.com");
@@ -51,20 +51,20 @@ public class testRun {
 		
 		rs.setTestCaseID("TES-4");
 		rs.startTestCase("Application_2");
-		rs.htmllog("Step1", "Step2", Status.PASS, browser);
-		rs.htmllog("Step1", "Step2", Status.PASS, browser);
-		rs.htmllog("Step1", "Step2", Status.FAIL, browser);
-		rs.htmllog("Step1", "Step2", Status.PASS, browser);
+		rs.htmllog("Step1", "Step2", Status.PASS);
+		rs.htmllog("Step1", "Step2", Status.PASS);
+		rs.htmllog("Step1", "Step2", Status.FAIL);
+		rs.htmllog("Step1", "Step2", Status.PASS);
 		rs.endTestCase();
 		
         browser.get("http://www.linkedin.com");
 		
         rs.setTestCaseID("TES-5");
 		rs.startTestCase("Application_3");
-		rs.htmllog("Step1", "Step2", Status.FAIL, browser);
-		rs.htmllog("Step1", "Step2", Status.PASS, browser);
-		rs.htmllog("Step1", "Step2", Status.FAIL, browser);
-		rs.htmllog("Step1", "Step2", Status.PASS, browser);
+		rs.htmllog("Step1", "Step2", Status.FAIL);
+		rs.htmllog("Step1", "Step2", Status.PASS);
+		rs.htmllog("Step1", "Step2", Status.FAIL);
+		rs.htmllog("Step1", "Step2", Status.PASS);
 		rs.endTestCase();
 
 		browser.get("http://www.facebook.com");
@@ -72,10 +72,10 @@ public class testRun {
 		
 		rs.setTestCaseID("TES-6");
 		rs.startTestCase("Application_4");
-		rs.htmllog("Step1", "Step2", Status.PASS, browser);
-		rs.htmllog("Step1", "Step2", Status.PASS, browser);
-		rs.htmllog("Step1", "Step2", Status.FAIL, browser);
-		rs.htmllog("Step1", "Step2", Status.PASS, browser);
+		rs.htmllog("Step1", "Step2", Status.PASS);
+		rs.htmllog("Step1", "Step2", Status.PASS);
+		rs.htmllog("Step1", "Step2", Status.FAIL);
+		rs.htmllog("Step1", "Step2", Status.PASS);
 		rs.endTestCase();
 	
 

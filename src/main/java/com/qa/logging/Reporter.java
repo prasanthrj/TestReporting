@@ -80,8 +80,6 @@ public class Reporter extends Results {
 		if (apiLogging.equalsIgnoreCase("true"))
 			objApiReporting.updateJIRA(testFactory);
 			objApiReporting.sendAPI(testFactory);
-		    
-		
 	}
 
 	
